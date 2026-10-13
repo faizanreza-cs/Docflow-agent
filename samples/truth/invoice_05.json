@@ -1,0 +1,41 @@
+{
+  "doc_type": "invoice",
+  "expect_review": false,
+  "data": {
+    "invoice_number": "INV-20260005",
+    "vendor_name": "Acme Cloud Services Inc",
+    "po_number": null,
+    "issue_date": "2026-09-04",
+    "due_date": "2026-09-19",
+    "currency": "USD",
+    "subtotal": 1084.3,
+    "tax": 0.0,
+    "total": 1084.3,
+    "line_items": [
+      {
+        "description": "Pipette tips 200uL (rack)",
+        "quantity": 10.0,
+        "unit_price": 14.75,
+        "amount": 147.5
+      },
+      {
+        "description": "Cloud compute (vCPU-hours)",
+        "quantity": 40.0,
+        "unit_price": 0.12,
+        "amount": 4.8
+      },
+      {
+        "description": "Printer paper A4 (box)",
+        "quantity": 2.0,
+        "unit_price": 32.5,
+        "amount": 65.0
+      },
+      {
+        "description": "Ergonomic chair",
+        "quantity": 3.0,
+        "unit_price": 289.0,
+        "amount": 867.0
+      }
+    ]
+  }
+}

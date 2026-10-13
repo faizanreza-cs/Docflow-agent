@@ -1,0 +1,12 @@
+{
+  "doc_type": "receipt",
+  "expect_review": false,
+  "data": {
+    "merchant": "City Deli",
+    "date": "2026-09-10",
+    "subtotal": 17.99,
+    "tax": 1.26,
+    "total": 19.25,
+    "currency": "USD"
+  }
+}

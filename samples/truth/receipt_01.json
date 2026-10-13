@@ -1,0 +1,12 @@
+{
+  "doc_type": "receipt",
+  "expect_review": false,
+  "data": {
+    "merchant": "Corner Coffee Co",
+    "date": "2026-09-03",
+    "subtotal": 15.48,
+    "tax": 1.08,
+    "total": 16.56,
+    "currency": "USD"
+  }
+}

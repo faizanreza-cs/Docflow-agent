@@ -1,0 +1,35 @@
+{
+  "doc_type": "invoice",
+  "expect_review": true,
+  "data": {
+    "invoice_number": "INV-20260004",
+    "vendor_name": "Northwind Supplies LLC",
+    "po_number": "PO-64937",
+    "issue_date": "2026-09-06",
+    "due_date": "2026-10-21",
+    "currency": "USD",
+    "subtotal": 905.3,
+    "tax": 45.27,
+    "total": 1050.5700000000002,
+    "line_items": [
+      {
+        "description": "Printer paper A4 (box)",
+        "quantity": 10.0,
+        "unit_price": 32.5,
+        "amount": 325.0
+      },
+      {
+        "description": "Object storage (GB-month)",
+        "quantity": 100.0,
+        "unit_price": 0.023,
+        "amount": 2.3
+      },
+      {
+        "description": "Ergonomic chair",
+        "quantity": 2.0,
+        "unit_price": 289.0,
+        "amount": 578.0
+      }
+    ]
+  }
+}

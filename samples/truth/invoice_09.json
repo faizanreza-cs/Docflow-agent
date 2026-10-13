@@ -1,0 +1,41 @@
+{
+  "doc_type": "invoice",
+  "expect_review": false,
+  "data": {
+    "invoice_number": "INV-20260009",
+    "vendor_name": "Helix Lab Instruments",
+    "po_number": null,
+    "issue_date": "2026-08-27",
+    "due_date": "2026-09-11",
+    "currency": "USD",
+    "subtotal": 1616.6,
+    "tax": 80.83,
+    "total": 1697.43,
+    "line_items": [
+      {
+        "description": "Toner cartridge XL",
+        "quantity": 3.0,
+        "unit_price": 89.0,
+        "amount": 267.0
+      },
+      {
+        "description": "Nitrile gloves (box of 100)",
+        "quantity": 10.0,
+        "unit_price": 9.9,
+        "amount": 99.0
+      },
+      {
+        "description": "Cloud compute (vCPU-hours)",
+        "quantity": 5.0,
+        "unit_price": 0.12,
+        "amount": 0.6
+      },
+      {
+        "description": "Consulting hours",
+        "quantity": 10.0,
+        "unit_price": 125.0,
+        "amount": 1250.0
+      }
+    ]
+  }
+}

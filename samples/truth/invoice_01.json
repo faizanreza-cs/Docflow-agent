@@ -1,0 +1,35 @@
+{
+  "doc_type": "invoice",
+  "expect_review": false,
+  "data": {
+    "invoice_number": "INV-20260001",
+    "vendor_name": "Blue Ridge Office Co",
+    "po_number": null,
+    "issue_date": "2026-09-30",
+    "due_date": "2026-10-15",
+    "currency": "USD",
+    "subtotal": 849.0,
+    "tax": 70.04,
+    "total": 919.04,
+    "line_items": [
+      {
+        "description": "Printer paper A4 (box)",
+        "quantity": 10.0,
+        "unit_price": 32.5,
+        "amount": 325.0
+      },
+      {
+        "description": "Toner cartridge XL",
+        "quantity": 1.0,
+        "unit_price": 89.0,
+        "amount": 89.0
+      },
+      {
+        "description": "Freight - pallet",
+        "quantity": 3.0,
+        "unit_price": 145.0,
+        "amount": 435.0
+      }
+    ]
+  }
+}

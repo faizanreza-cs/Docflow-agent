@@ -1,0 +1,16 @@
+{
+  "doc_type": "contract",
+  "expect_review": false,
+  "data": {
+    "parties": [
+      "Contoso Health Partners",
+      "Helix Lab Instruments"
+    ],
+    "effective_date": "2026-10-31",
+    "end_date": "2027-10-31",
+    "auto_renewal": true,
+    "notice_period_days": 60,
+    "governing_law": "Delaware",
+    "payment_terms": "Net 30"
+  }
+}

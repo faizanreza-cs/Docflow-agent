@@ -1,0 +1,29 @@
+{
+  "doc_type": "invoice",
+  "expect_review": false,
+  "data": {
+    "invoice_number": "INV-20260003",
+    "vendor_name": "Northwind Supplies LLC",
+    "po_number": null,
+    "issue_date": "2026-09-05",
+    "due_date": "2026-10-05",
+    "currency": "USD",
+    "subtotal": 3560.92,
+    "tax": 293.78,
+    "total": 3854.7,
+    "line_items": [
+      {
+        "description": "Toner cartridge XL",
+        "quantity": 40.0,
+        "unit_price": 89.0,
+        "amount": 3560.0
+      },
+      {
+        "description": "Object storage (GB-month)",
+        "quantity": 40.0,
+        "unit_price": 0.023,
+        "amount": 0.92
+      }
+    ]
+  }
+}

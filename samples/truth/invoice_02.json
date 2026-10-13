@@ -1,0 +1,29 @@
+{
+  "doc_type": "invoice",
+  "expect_review": false,
+  "data": {
+    "invoice_number": "INV-20260002",
+    "vendor_name": "Northwind Supplies LLC",
+    "po_number": "PO-41544",
+    "issue_date": "2026-09-28",
+    "due_date": "2026-11-12",
+    "currency": "USD",
+    "subtotal": 607.5,
+    "tax": 0.0,
+    "total": 607.5,
+    "line_items": [
+      {
+        "description": "Printer paper A4 (box)",
+        "quantity": 5.0,
+        "unit_price": 32.5,
+        "amount": 162.5
+      },
+      {
+        "description": "Toner cartridge XL",
+        "quantity": 5.0,
+        "unit_price": 89.0,
+        "amount": 445.0
+      }
+    ]
+  }
+}
