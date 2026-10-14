@@ -25,11 +25,19 @@ INVOICE_COLUMNS = [
 ]
 
 
+def _cell(v: Any) -> Any:
+    """Stop document text from running as a spreadsheet formula (=, +, -, @ ...)."""
+    return "'" + v if isinstance(v, str) and v[:1] in ("=", "+", "-", "@", "\t", "\r") else v
+
+
 def _rows(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Invoice rows only: receipts and contracts have no place in an AP import."""
     rows = []
     for r in records:
+        if r.get("doc_type") != "invoice":
+            continue
         data = r.get("data") or {}
-        rows.append({c: r.get(c, data.get(c)) for c in INVOICE_COLUMNS})
+        rows.append({c: _cell(r.get(c, data.get(c))) for c in INVOICE_COLUMNS})
     return rows
 
 

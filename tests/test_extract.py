@@ -45,3 +45,13 @@ def test_total_not_confused_with_subtotal():
         "Subtotal: USD 100.00\nTax: USD 5.00\nTOTAL: USD 105.00"
     )
     assert RulesExtractor().extract(text, DocType.invoice)["total"] == 105.00
+
+
+def test_rules_dont_misread_due_date_or_european_amounts():
+    text = (
+        "INVOICE\nInvoice # A-1\nDue Date: 2026-02-01\nInvoice Date: 2026-01-01\n"
+        "Total: EUR 1.234,56"
+    )
+    got = RulesExtractor().extract(text, DocType.invoice)
+    assert got["issue_date"] == date(2026, 1, 1) and got["due_date"] == date(2026, 2, 1)
+    assert got["total"] is None  # unreadable amount -> review, never 1.23

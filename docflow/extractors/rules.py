@@ -15,7 +15,8 @@ from dateutil import parser as dateparser
 
 from docflow.schemas import DocType
 
-_NUM = r"([0-9][0-9,]*\.[0-9]{2})"
+# trailing guard: "1.234,56" (European) fails to match and goes to review, not misread as 1.23
+_NUM = r"([0-9][0-9,]*\.[0-9]{2})(?![0-9,])"
 _DATE = r"([A-Z][a-z]{2,8} \d{1,2}, \d{4}|\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{4})"
 
 
@@ -62,7 +63,9 @@ def extract_invoice(text: str) -> dict[str, Any]:
         "invoice_number": _first([r"invoice\s*(?:#|no\.?|number:?)\s*([A-Z0-9-]+)"], text),
         "vendor_name": lines[0] if lines else None,
         "po_number": _first([r"\bPO (?:Number|No\.?|#):?\s*([A-Z0-9-]+)"], text),
-        "issue_date": _date(_first([rf"(?:invoice date|issued|date)\s*:?\s*{_DATE}"], text), df),
+        "issue_date": _date(
+            _first([rf"(?:invoice date|issued|(?<!due )date)\s*:?\s*{_DATE}"], text), df
+        ),
         "due_date": _date(_first([rf"(?:due date|payment due|due)\s*:?\s*{_DATE}"], text), df),
         "currency": _first([r"\b(USD|EUR|GBP|INR|CAD|AUD)\b"], text, 0) or "USD",
         "line_items": items,

@@ -84,7 +84,8 @@ docflow review reject 7 --reviewer alice --note "not our vendor"
 | `DOCFLOW_PROVIDER` | `auto` | `anthropic`, `openai`, `rules`; `auto` uses the LLM when a key and model are set |
 | `DOCFLOW_MODEL` | none | LLM model id |
 | `DOCFLOW_REVIEW_THRESHOLD` | `0.85` | confidence needed for auto-approval |
-| `DOCFLOW_KNOWN_VENDORS` | none | comma-separated approved vendors; others get a warning |
+| `DOCFLOW_KNOWN_VENDORS` | none | comma-separated approved vendors; others always go to review |
+| `DOCFLOW_API_TOKEN` | none | when set, every API request must send it as `X-API-Key` (set this before exposing the API) |
 | `DOCFLOW_DB` | `data/docflow.db` | SQLite review queue and document store |
 
 ## Evaluation
@@ -104,10 +105,14 @@ vendor documents, which vary much more. That variety is what the LLM extractor i
 ## Engineering
 
 - Pydantic schemas double as the LLM's output contract and the validation layer.
-- Extractor failures (API errors, refusals) never crash a batch: the document is marked
-  `failed` and kept for review.
-- 18 tests: extraction, email attachments, date-format detection, validation rules,
-  duplicate detection, review approval with re-validation, CLI and API.
+- Extractor failures (API errors, refusals) and unreadable files never crash a batch: the
+  document is marked `failed` and kept for review.
+- Duplicates match regardless of case and spacing, and a flagged duplicate can't be approved
+  while the original is approved.
+- CSV and Sheets exports neutralise spreadsheet formulas in document text and contain
+  invoices only.
+- 23 tests: extraction, email attachments, date-format detection, validation rules,
+  duplicate detection, review approval with re-validation, formula-safe export, CLI and API.
 - ruff, mypy, GitHub Actions CI, Docker image smoke-tested in CI.
 
 ```

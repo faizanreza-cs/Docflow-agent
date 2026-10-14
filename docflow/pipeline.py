@@ -73,7 +73,16 @@ class Pipeline:
 
     def process_path(self, path: str | Path, data: bytes | None = None) -> list[Result]:
         results = []
-        for doc in load(path, data):
+        try:
+            docs = load(path, data)
+        except Exception as e:  # unreadable file: record it and keep the batch going
+            r = Result(source=str(path), doc_type=DocType.unknown, status="failed")
+            r.issues = [Issue(field="document", message=f"{type(e).__name__}: {e}")]
+            docs = []
+            if self.queue is not None:
+                self.queue.add(r)
+            results.append(r)
+        for doc in docs:
             r = self.process_document(doc)
             if self.queue is not None:
                 self.queue.add(r)

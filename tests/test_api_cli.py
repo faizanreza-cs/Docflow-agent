@@ -12,12 +12,18 @@ def test_cli_run_and_export(samples, tmp_path, monkeypatch, capsys):
     assert main(["run", str(samples / "docs"), "--extractor", "rules", "--export", str(out)]) == 0
     rows = list(csv.DictReader(out.open()))
     assert rows and all(r["status"] == "auto_approved" for r in rows)
+    assert all(r["invoice_number"] for r in rows)
     assert "REVIEW" in capsys.readouterr().out
 
 
 def test_to_csv_columns(tmp_path):
-    p = to_csv([{"source": "a", "status": "ok", "data": {"total": 5}}], tmp_path / "x.csv")
-    assert next(csv.DictReader(p.open()))["total"] == "5"
+    records = [
+        {"source": "a", "doc_type": "invoice", "data": {"total": 5, "vendor_name": "=1+1"}},
+        {"source": "b", "doc_type": "receipt", "data": {"total": 9}},
+    ]
+    rows = list(csv.DictReader(to_csv(records, tmp_path / "x.csv").open()))
+    assert len(rows) == 1 and rows[0]["total"] == "5"  # receipts are not AP rows
+    assert rows[0]["vendor_name"] == "'=1+1"  # never runs as a formula
 
 
 def test_api_upload_and_review(samples, tmp_path, monkeypatch):

@@ -32,13 +32,13 @@ def check_invoice(inv: Invoice, known_vendors: tuple[str, ...] = ()) -> list[Iss
     issues: list[Issue] = []
     if inv.line_items:
         items_sum = round(sum(li.amount for li in inv.line_items), 2)
-        ref = inv.subtotal if inv.subtotal is not None else inv.total
+        ref = inv.subtotal if inv.subtotal is not None else inv.total - (inv.tax or 0.0)
         if not _close(items_sum, ref):
             issues.append(
                 Issue(
                     field="line_items",
                     message=f"line items sum to {items_sum:.2f} but "
-                    f"{'subtotal' if inv.subtotal is not None else 'total'} "
+                    f"{'subtotal' if inv.subtotal is not None else 'total - tax'} "
                     f"is {ref:.2f}",
                 )
             )
@@ -76,7 +76,6 @@ def check_invoice(inv: Invoice, known_vendors: tuple[str, ...] = ()) -> list[Iss
         issues.append(
             Issue(
                 field="vendor_name",
-                severity="warning",
                 message=f"vendor '{inv.vendor_name}' is not on the approved list",
             )
         )

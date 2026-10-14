@@ -44,7 +44,10 @@ def email_documents(data: bytes, source: str) -> list[Document]:
         if ctype == "application/pdf" or name.lower().endswith(".pdf"):
             docs.append(Document(f"{source}#{name}", pdf_text(payload)))
         elif ctype.startswith("image/"):
-            docs.append(Document(f"{source}#{name}", image_text(payload)))
+            try:
+                docs.append(Document(f"{source}#{name}", image_text(payload)))
+            except RuntimeError:  # no OCR installed: skip logos/signatures, keep the PDFs
+                continue
     if not docs:
         body = msg.get_body(preferencelist=("plain", "html"))
         docs.append(Document(source, body.get_content() if body else ""))

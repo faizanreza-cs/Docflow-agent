@@ -6,7 +6,7 @@ from datetime import date
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class DocType(StrEnum):
@@ -24,6 +24,9 @@ class LineItem(BaseModel):
 
 
 class Invoice(BaseModel):
+    # reviewers type "--set invoice_number=20260004", which JSON-decodes to a number
+    model_config = ConfigDict(coerce_numbers_to_str=True)
+
     invoice_number: str
     vendor_name: str
     bill_to: str | None = None

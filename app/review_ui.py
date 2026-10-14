@@ -118,11 +118,7 @@ with tab_all:
             ]
         )
         st.dataframe(df, hide_index=True, use_container_width=True)
-        ok = [
-            d
-            for d in docs
-            if d["status"] in {"auto_approved", "approved"} and d["doc_type"] == "invoice"
-        ]
+        ok = [d for d in docs if d["status"] in {"auto_approved", "approved"}]
         if ok:
             path = to_csv(ok, Path(get_settings().db_path).parent / "approved_invoices.csv")
             st.download_button(

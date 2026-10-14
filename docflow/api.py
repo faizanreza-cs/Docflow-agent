@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import os
+import secrets
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, Header, HTTPException, UploadFile
 from pydantic import BaseModel
 
 from docflow import __version__
@@ -12,10 +14,19 @@ from docflow.config import get_settings
 from docflow.pipeline import Pipeline
 from docflow.review import ReviewQueue
 
+
+def check_token(x_api_key: str = Header(default="")) -> None:
+    """When DOCFLOW_API_TOKEN is set, every request must send it as X-API-Key."""
+    token = os.environ.get("DOCFLOW_API_TOKEN")
+    if token and not secrets.compare_digest(x_api_key, token):
+        raise HTTPException(401, "missing or wrong X-API-Key")
+
+
 app = FastAPI(
     title="docflow-agent",
     version=__version__,
     description="Turn documents into validated, structured data.",
+    dependencies=[Depends(check_token)],
 )
 _settings = get_settings()
 queue = ReviewQueue(_settings.db_path)

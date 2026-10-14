@@ -46,12 +46,23 @@ class ReviewQueue:
         self.con.row_factory = sqlite3.Row
         self.con.executescript(SCHEMA)
 
-    def is_duplicate(self, vendor: str | None, number: str | None) -> bool:
+    def is_duplicate(
+        self,
+        vendor: str | None,
+        number: str | None,
+        statuses: tuple[str, ...] = ("auto_approved", "needs_review", "approved", "failed"),
+        exclude_id: int | None = None,
+    ) -> bool:
+        """Same vendor and number, ignoring case and spacing ("ACME CORP" == "Acme Corp ")."""
         if not vendor or not number:
             return False
+        # shortcut: full scan (lower() skips the index), fine to ~100k documents; then store
+        # normalised columns
         row = self.con.execute(
-            "SELECT 1 FROM documents WHERE vendor = ? AND doc_number = ? AND status != 'rejected'",
-            (vendor, number),
+            "SELECT 1 FROM documents WHERE lower(trim(vendor)) = lower(trim(?))"
+            " AND lower(trim(doc_number)) = lower(trim(?))"
+            f" AND status IN ({','.join('?' * len(statuses))}) AND id != ?",
+            (vendor, number, *statuses, exclude_id or -1),
         ).fetchone()
         return row is not None
 
@@ -111,20 +122,34 @@ class ReviewQueue:
         model, issues = validate.parse(DocType(doc["doc_type"]), data)
         if model is not None:
             issues += validate.check(model)
+        if (
+            model is not None
+            and doc["doc_type"] == "invoice"
+            and self.is_duplicate(
+                getattr(model, "vendor_name", None),
+                getattr(model, "invoice_number", None),
+                ("auto_approved", "approved"),
+                exclude_id=doc_id,
+            )
+        ):
+            issues.append(Issue(field="invoice_number", message="already approved (duplicate)"))
         errors = [i for i in issues if i.severity == "error"]
         if errors:
             raise ValueError(
                 "cannot approve: " + "; ".join(f"{i.field}: {i.message}" for i in errors)
             )
+        final = model.model_dump(mode="json") if model else data
         self.con.execute(
             "UPDATE documents SET status='approved', data=?, issues=?, reviewed_at=?, reviewer=?,"
-            " note=? WHERE id=?",
+            " note=?, vendor=?, doc_number=? WHERE id=?",
             (
-                json.dumps(model.model_dump(mode="json") if model else data),
+                json.dumps(final),
                 json.dumps([i.model_dump() for i in issues]),
                 _now(),
                 reviewer,
                 note,
+                final.get("vendor_name") or final.get("merchant"),
+                final.get("invoice_number"),
                 doc_id,
             ),
         )
