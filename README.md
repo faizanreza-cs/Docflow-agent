@@ -31,19 +31,12 @@ does one of two things:
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[PDF / email .eml / image] --> B[Ingest<br/>pypdf, email attachments, OCR]
-    B --> C[Classify<br/>invoice · receipt · contract]
-    C --> D{Extractor}
-    D -->|LLM| E[Schema-constrained output<br/>Pydantic models]
-    D -->|offline| F[Rules extractor]
-    E & F --> G[Validate<br/>totals · dates · duplicates · vendor list]
-    G --> H{Confidence ≥ threshold<br/>and no errors?}
-    H -->|yes| I[Auto-approve → CSV / Sheets / webhook]
-    H -->|no| J[Review queue<br/>edit → re-validate → approve]
-    J --> I
-```
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/pipeline-dark.png">
+  <img src="docs/img/pipeline.png" alt="How a document flows through docflow" width="477">
+</picture>
+</p>
 
 | Stage | What it does |
 |---|---|

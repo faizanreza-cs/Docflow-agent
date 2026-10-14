@@ -1,0 +1,11 @@
+flowchart TB
+    A[PDF · email .eml · image] --> B[Ingest<br/>pypdf · attachments · OCR]
+    B --> C[Classify<br/>invoice · receipt · contract]
+    C --> D{{Extractor}}
+    D -->|LLM| E[Schema-constrained output<br/>Pydantic models]
+    D -->|offline| F[Rules extractor]
+    E & F --> G[Validate<br/>totals · dates<br/>duplicates · vendor list]
+    G --> H{{Confidence ≥ threshold<br/>and no errors?}}
+    H -->|yes| I[Auto-approve<br/>CSV · Sheets · webhook]
+    H -->|no| J[Review queue<br/>edit → re-validate → approve]
+    J --> I
