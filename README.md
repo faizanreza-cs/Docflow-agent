@@ -1,11 +1,22 @@
-# docflow-agent
+<div align="center">
 
-**Turn invoices, receipts and contracts into clean, validated data automatically, with a
-human in the loop for the ones that need a second look.**
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/logo-dark.svg">
+  <img src="docs/img/logo.svg" alt="DocFlow Agent" height="100">
+</picture>
+
+<p><em>Invoices, receipts and contracts turned into clean, validated data, with a human in the loop for the ones that need a second look.</em></p>
 
 [![CI](https://github.com/faizanreza-cs/docflow-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/faizanreza-cs/docflow-agent/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/YOUR-LINKEDIN-ID)
+[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/YOUR_X_HANDLE)
+
+</div>
+
+## ⚡ Overview
 
 Accounts-payable teams still re-type invoices from PDFs and email attachments. docflow reads
 the document, extracts typed fields with an LLM (or offline rules), checks the numbers, and
@@ -113,31 +124,6 @@ vendor documents, which vary much more. That variety is what the LLM extractor i
   invoices only.
 - 23 tests: extraction, email attachments, date-format detection, validation rules,
   duplicate detection, review approval with re-validation, formula-safe export, CLI and API.
-- ruff, mypy, GitHub Actions CI, Docker image smoke-tested in CI.
-
-```
-docflow/
-  ingest.py        PDF, email, image → text
-  classify.py      document type
-  extractors/      rules.py (offline) · llm.py (Anthropic / OpenAI structured outputs)
-  validate.py      business rules + confidence score
-  pipeline.py      routing
-  review.py        SQLite review queue
-  exporters.py     CSV · webhook · Google Sheets
-  api.py · cli.py
-app/review_ui.py   Streamlit reviewer UI
-evals/run_eval.py  field and routing accuracy
-samples/           synthetic documents + ground truth
-```
-
-## Need this for your business?
-
-I build document automation like this for finance, operations and healthcare teams:
-invoice and receipt capture, contract term extraction, onboarding forms, lab reports. I
-connect it to your inbox, drive, ERP or spreadsheets, and include a review step your team
-will actually use.
-
-**Faizan Reza**, AI engineer · [GitHub](https://github.com/faizanreza-cs) · faizanreza01@gmail.com
 
 ## License
 
