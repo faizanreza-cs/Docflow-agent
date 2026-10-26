@@ -3,8 +3,7 @@ PY ?= .venv/bin/python
 .PHONY: setup samples test lint eval eval-llm api ui docker
 
 setup:
-	uv venv --allow-existing .venv
-	uv pip install --python $(PY) -e ".[app,dev]"
+	uv sync --locked --extra app --extra dev
 
 samples:          ## regenerate the synthetic sample documents
 	$(PY) samples/generate.py
