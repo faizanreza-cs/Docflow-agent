@@ -10,6 +10,7 @@
 [![CI](https://github.com/faizanreza-cs/docflow-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/faizanreza-cs/docflow-agent/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![Website](https://img.shields.io/badge/Website-Visit-0B7A5A)](https://faizanreza-cs.github.io/Docflow-agent/)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/faizanreza)
 [![X](https://img.shields.io/badge/Follow-000000?logo=x&logoColor=white)](https://x.com/cs_faizan)
